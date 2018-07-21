@@ -18,3 +18,20 @@ def create(request):
     new_user = User.objects.create(name=request.POST['name'], email=request.POST['email'])
     print new_user
     return redirect('/users/'+str(new_user.id))
+
+def edit(request, id):
+    return render(request, 'users/edit.html', { "user": User.objects.get(id=int(id)) })
+
+def update(request, id):
+    errors = User.objects.validator(request.POST, "update")
+    if len(errors):
+        for error in errors.itervalues():
+            messages.error(request, error)
+        return redirect('/users/'+id+"/edit")
+    else:
+        User.object.filter(id=int(id)).update(name=request.POST['name'], email=request.POST['email'])
+        return redirect('/users/'+id)
+
+def destroy(request, id):
+    User.objects.get(id=int(id)).delete()
+    return redirect('/')
