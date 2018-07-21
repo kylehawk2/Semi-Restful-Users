@@ -9,6 +9,7 @@
 <body>
     <h1><u>Create a New User!</u></h1>
     <form action="/users/create" method="POST">
+        {% csrf_token %}
         <ul>
             <li>
                 <label>Name: </label>

@@ -14,3 +14,7 @@ def new(request):
 def show(request, id):
     return render(request, 'users/show.html', {"user": User.objects.get(id=int(id))})
 
+def create(request):
+    new_user = User.objects.create(name=request.POST['name'], email=request.POST['email'])
+    print new_user
+    return redirect('/users/'+str(new_user.id))
